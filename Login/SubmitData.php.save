@@ -1,0 +1,95 @@
+<?php
+
+session_start();
+
+if (isset ($_POST['submitdata'])) {
+    if ($_POST['teamnumber_input'] != 0) {
+
+    //Pregame
+    $teamn = $_POST['teamnumber_input'];
+    $matchn = $_POST['matchnumber_input'];
+    $alliancec = $_POST['alliancecolor_input'];
+    $allianceteams = $_POST['allianceteam1_input'] . ", " . $_POST['allianceteam2_input'] . ", " . $_POST['allianceteam3_input'];
+    $startpos = $_POST['startpos'];
+    $startconfig = $_POST['startconfig'];
+    
+    //Auto
+    $autodo = $_POST['auto_do'];
+    
+
+    //Teleop
+    $capabilities = $_POST['capabilities'];
+    $scale = $_POST['scale'];
+    $switch = $_POST['switch'];
+    $exchange = $_POST['exchange'];
+    $fouls = $_POST['fouls'];
+    $techfouls = $_POST['techfoul'];
+    $powerup = $_POST['powerup'];
+
+    //Alliance Play
+    $alliancescale = $_POST['alliancescale'];
+    $allianceswitch = $_POST['allianceswitch'];
+    $allianceexchange = $_POST['allianceexchange'];
+    $enemyallianceswitch = $_POST['enemyallianceswitch'];
+    $enemyalliancescale = $_POST['enemyalliancescale'];
+    $defense = $_POST['defense'];
+
+    //Endgame
+    $climb = $_POST['climb'];
+
+    //Postgame
+    $totalalliancescore = $_POST['totalalliancescore'];
+    $totalopponentscore = $_POST['totalopponentscore'];
+    $redcard = $_POST['redcard'];
+    $yellowcard = $_POST['yellowcard'];
+    $fms = $_POST['fms'];
+    $aog = $_POST['aog'];
+    $sat = $_POST['sat'];
+    $win = $_POST['win'];
+
+
+    $link = mysqli_connect("localhost", "root", "meBre33f", "Scouting_System");
+    
+    date_default_timezone_set('America/Los_Angeles');
+    $date = date('Y/m/d h:i:s a', time());
+    // Check connection
+    if($link === false){
+        die("ERROR: Could not connect. " . mysqli_connect_error());
+    }
+     
+    // Attempt insert query execution
+  $sql = "INSERT INTO scouting_data (Team_Number, Match_Number, Alliance_Color, Alliance_Teams, Starting_Position, Start_Config, Auto_Do, Capabilities, Scale, Switch, Exchange, Fouls, Tech_Fouls, Powerups, Total_Scale, Total_Switch, Total_Exchange, Opposing_Switch, Opposing_Scale, Defense, Climb, Total_Alliance_Score, Total_Opponent_Score, Red_Card, Yellow_Card, FMS_Problems, AOG_Problems, Sat_Problems, Win, Time_Upload) 
+    VALUES ('$teamn', '$matchn', '$alliancec', '$allianceteams', '$startpos', '$startconfig', '$autodo', '$capabilities', '$scale', '$switch', '$exchange', '$fouls', '$techfouls', '$powerup', '$alliancescale', '$allianceswitch', '$allianceexchange', '$enemyallianceswitch', '$enemyalliancescale', '$defense', '$climb', '$totalalliancescore', '$totalopponentscore', '$redcard', '$yellowcard', '$fms', '$aog', '$sat', '$win','$date')";
+
+    if(mysqli_query($link, $sql)){
+        echo "<script>";
+        echo "alert('Records Entered Successfully')";
+        echo "</script>";
+    } else{
+        echo "ERROR: " . mysqli_error();
+        // echo "<script>";
+        // echo "alert('ERROR: Could not Submit Data')";
+        // echo "</script>";
+    }
+} else {
+    echo "<script>";
+    echo "alert('PLEASE SELECT TEAM NUMBER')";
+    echo "</script>";
+}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+?>
